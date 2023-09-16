@@ -65,7 +65,7 @@ class CarInterface(CarInterfaceBase):
       ret.transmissionType = TransmissionType.cvt
 
     ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0], [0]]
-    
+
     # set torque tune for supported models 
     if candidate in (CAR.PILOT,):
       steering_angle_deadzone_deg = 0.0
