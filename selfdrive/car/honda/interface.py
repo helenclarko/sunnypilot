@@ -75,7 +75,6 @@ class CarInterface(CarInterfaceBase):
       # which improves controls quality as it removes the steering column torsion from feedback.
       # Tire stiffness factor fictitiously lower if it includes the steering column torsion effect.
       # For modeling details, see p.198-200 in "The Science of Vehicle Dynamics (2014), M. Guiggiani"
-      ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0], [0]]
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kf = 0.00006  # conservative feed-forward
 
