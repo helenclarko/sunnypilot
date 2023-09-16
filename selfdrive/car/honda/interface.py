@@ -67,7 +67,7 @@ class CarInterface(CarInterfaceBase):
     ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0], [0]]
     
     # set torque tune for supported models 
-    if candidate in (CAR.PILOT_2020,):
+    if candidate in (CAR.PILOT):
       steering_angle_deadzone_deg = 0.0
       CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning, steering_angle_deadzone_deg)
     else:
