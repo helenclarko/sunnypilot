@@ -64,13 +64,20 @@ class CarInterface(CarInterfaceBase):
     if candidate == CAR.ACCORD and 0x191 in fingerprint[1]:
       ret.transmissionType = TransmissionType.cvt
 
-    # Certain Hondas have an extra steering sensor at the bottom of the steering rack,
-    # which improves controls quality as it removes the steering column torsion from feedback.
-    # Tire stiffness factor fictitiously lower if it includes the steering column torsion effect.
-    # For modeling details, see p.198-200 in "The Science of Vehicle Dynamics (2014), M. Guiggiani"
     ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0], [0]]
-    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-    ret.lateralTuning.pid.kf = 0.00006  # conservative feed-forward
+    
+    # set torque tune for supported models 
+    if candidate in (CAR.PILOT_2019,):
+      steering_angle_deadzone_deg = 0.0
+      CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning, steering_angle_deadzone_deg)
+    else:
+      # Certain Hondas have an extra steering sensor at the bottom of the steering rack,
+      # which improves controls quality as it removes the steering column torsion from feedback.
+      # Tire stiffness factor fictitiously lower if it includes the steering column torsion effect.
+      # For modeling details, see p.198-200 in "The Science of Vehicle Dynamics (2014), M. Guiggiani"
+      ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0], [0]]
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+      ret.lateralTuning.pid.kf = 0.00006  # conservative feed-forward
 
     if candidate in HONDA_BOSCH:
       ret.longitudinalTuning.kpV = [0.25]
